@@ -1,0 +1,1588 @@
+{
+	"info": {
+		"_postman_id": "1b1a5e70-27e6-4ad5-bf02-24f3409ad57a",
+		"name": "URL Shortener API",
+		"description": "Explore all endpoints that ship out-of-the-box with Apiato API. Reduce your development time with these preprepared API calls. Postman allows you to interact with the Apiato API using GET, POST and DELETE request. Enjoy your new API.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "03707176-82f7-4617-904c-d61b1da2b30d",
+								"type": "text/javascript",
+								"exec": [
+									"if (responseCode.code === 200) {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);",
+									"    postman.setEnvironmentVariable(\"expires_in\", jsonData.expires_in);",
+									"    postman.setEnvironmentVariable(\"refresh_token\", jsonData.refresh_token);",
+									"    postman.setEnvironmentVariable(\"token_type\", jsonData.token_type);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"admin@admin.com\",\n\t\"password\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/clients/web/admin/login",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"clients",
+								"web",
+								"admin",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7a5a8414-c6e0-4170-9e60-3399405613e7",
+								"type": "text/javascript",
+								"exec": [
+									"if (responseCode.code === 202) {",
+									"    postman.setEnvironmentVariable(\"access_token\", \"\");",
+									"    postman.setEnvironmentVariable(\"expires_in\", \"\");",
+									"    postman.setEnvironmentVariable(\"refresh_token\", \"\");",
+									"    postman.setEnvironmentVariable(\"token_type\", \"\");",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/logout",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "Roles",
+					"item": [
+						{
+							"name": "Create Role",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"test\",\n\t\"description\": \"This is a test role.\",\n\t\"display_name\": \"test-role\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/roles",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"roles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Fetch All Roles",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{domain}}/roles?",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"roles"
+									],
+									"query": [
+										{
+											"key": "include",
+											"value": "users",
+											"description": "Include related resources.",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id;name",
+											"description": "Filter and reduce response to specific attributes.",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "name:admin",
+											"description": "Search all fields or specific fields with attribute:value syntax.",
+											"disabled": true
+										},
+										{
+											"key": "orderBy",
+											"value": "id",
+											"description": "Order results by attribute. Use with 'sortedBy'.",
+											"disabled": true
+										},
+										{
+											"key": "sortedBy",
+											"value": "desc",
+											"description": "Sort by asc or desc. Use with 'orderBy'. ",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "10",
+											"description": "Limit the number of items per page.",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "Returns specific page from paginated results.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Fetch Role By Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{domain}}/roles/:id?",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"roles",
+										":id"
+									],
+									"query": [
+										{
+											"key": "include",
+											"value": "permissions",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id;name",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "",
+											"description": "Role ID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Role By Id",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{domain}}/roles/:id",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"roles",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "",
+											"description": "Role ID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sync Roles on User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"user_id\": \"user_id\",\n\t\"roles_ids\": [\n\t\t\"role_id1\",\n\t\t\"role_id2\",\n\t\t\"role_id3\"\n\t]\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/roles/sync",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"roles",
+										"sync"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Assign Roles on User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"user_id\": \"user_id\",\n\t\"roles_ids\": [\n\t\t\"role_id1\",\n\t\t\"role_id2\",\n\t\t\"role_id3\"\n\t]\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/roles/assign",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"roles",
+										"assign"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Revoke Roles on User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"user_id\": \"user_id\",\n\t\"roles_ids\": [\n\t\t\"role_id1\",\n\t\t\"role_id2\",\n\t\t\"role_id3\"\n\t]\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/roles/revoke",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"roles",
+										"revoke"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Permissions",
+					"item": [
+						{
+							"name": "Fetch All Permissions",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{domain}}/permissions?",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"permissions"
+									],
+									"query": [
+										{
+											"key": "include",
+											"value": "roles",
+											"description": "Include related resources.",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id;name",
+											"description": "Filter and reduce response to specific attributes.",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "name:search-users",
+											"description": "Search all fields or specific fields with attribute:value syntax.",
+											"disabled": true
+										},
+										{
+											"key": "orderBy",
+											"value": "id",
+											"description": "Order results by attribute. Use with 'sortedBy'.",
+											"disabled": true
+										},
+										{
+											"key": "sortedBy",
+											"value": "desc",
+											"description": "Sort by asc or desc. Use with 'orderBy'. ",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "10",
+											"description": "Limit the number of items per page.",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "Returns specific page from paginated results.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Fetch Permission By Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{domain}}/permissions/:id?",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"permissions",
+										":id"
+									],
+									"query": [
+										{
+											"key": "include",
+											"value": "roles",
+											"description": "Include related resources.",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id;name",
+											"description": "Filter and reduce response to specific attributes.",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "",
+											"description": "Permissions ID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sync Permissions on Role",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"role_id\": \"role_id\",\n\t\"permissions_ids\": [\n\t\t\"permission_id1\",\n\t\t\"permission_id2\",\n\t\t\"permission_id3\"\n\t]\n}\t"
+								},
+								"url": {
+									"raw": "{{domain}}/permissions/sync",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"permissions",
+										"sync"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attach Permissions on Role",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"role_id\": \"role_id\",\n\t\"permissions_ids\": [\n\t\t\"permission_id1\",\n\t\t\"permission_id2\",\n\t\t\"permission_id3\"\n\t]\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/permissions/attach",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"permissions",
+										"attach"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Detach Permissions on Role",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"role_id\": \"role_id\",\n\t\"permissions_ids\": [\n\t\t\"permission_id1\",\n\t\t\"permission_id2\",\n\t\t\"permission_id3\"\n\t]\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/permissions/detach",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"permissions",
+										"detach"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Administrators",
+					"item": [
+						{
+							"name": "Fetch All Administrators",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{domain}}/admins?",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"admins"
+									],
+									"query": [
+										{
+											"key": "include",
+											"value": "roles",
+											"description": "Include related resources.",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id;name",
+											"description": "Filter and reduce response to specific attributes.",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "name:Super",
+											"description": "Search all fields or specific fields with attribute:value syntax.",
+											"disabled": true
+										},
+										{
+											"key": "orderBy",
+											"value": "id",
+											"description": "Order results by attribute. Use with 'sortedBy'.",
+											"disabled": true
+										},
+										{
+											"key": "sortedBy",
+											"value": "desc",
+											"description": "Sort by asc or desc. Use with 'orderBy'. ",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "10",
+											"description": "Limit the number of items per page.",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "Returns specific page from paginated results.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Fetch All Clients",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{domain}}/clients?",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"clients"
+									],
+									"query": [
+										{
+											"key": "include",
+											"value": "roles",
+											"description": "Include related resources.",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id;name",
+											"description": "Filter and reduce response to specific attributes.",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "name:Super",
+											"description": "Search all fields or specific fields with attribute:value syntax.",
+											"disabled": true
+										},
+										{
+											"key": "orderBy",
+											"value": "id",
+											"description": "Order results by attribute. Use with 'sortedBy'.",
+											"disabled": true
+										},
+										{
+											"key": "sortedBy",
+											"value": "desc",
+											"description": "Sort by asc or desc. Use with 'orderBy'. ",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "10",
+											"description": "Limit the number of items per page.",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "Returns specific page from paginated results.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Administrator",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "justinatack@apiato.com",
+											"description": "Email Field (required, string)",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "secret",
+											"description": "Password Field (required, string)",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "Justin Atack",
+											"description": "Name Field (optional, string)",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{domain}}/admins",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"admins"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find Authenticated Administrator",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{domain}}/user/profile",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"user",
+										"profile"
+									]
+								},
+								"description": "Fetches the authenticated user and returns a User object."
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Create / Register User",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "arthur@apiato.com",
+											"description": "required, string",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"description": "required, string",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "Arthur Apiato",
+											"description": "optional, string",
+											"type": "text"
+										},
+										{
+											"key": "gender",
+											"value": "male",
+											"description": "optional, string",
+											"type": "text"
+										},
+										{
+											"key": "birth",
+											"value": "1979-09-02",
+											"description": "optional, string",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{domain}}/register",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"register"
+									]
+								},
+								"description": "Reigister a new user. Authentication not required."
+							},
+							"response": []
+						},
+						{
+							"name": "Fetch All Users",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{domain}}/users?",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "include",
+											"value": "roles",
+											"description": "Include related resources.",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id;name",
+											"description": "Filter and reduce response to specific attributes.",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "name:Super",
+											"description": "Search all fields or specific fields with attribute:value syntax.",
+											"disabled": true
+										},
+										{
+											"key": "orderBy",
+											"value": "id",
+											"description": "Order results by attribute. Use with 'sortedBy'.",
+											"disabled": true
+										},
+										{
+											"key": "sortedBy",
+											"value": "desc",
+											"description": "Sort by asc or desc. Use with 'orderBy'. ",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "10",
+											"description": "Limit the number of items per page.",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "Returns specific page from paginated results.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find User By Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{domain}}/users/:id?",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"query": [
+										{
+											"key": "include",
+											"value": "roles",
+											"description": "Include related resources.",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id;name;email",
+											"description": "Filter and reduce response to specific attributes.",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "",
+											"description": "User ID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User By Id",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Arthur Aardvark",
+											"description": "Name Field (optional, string)",
+											"type": "text"
+										},
+										{
+											"key": "gender",
+											"value": "Male",
+											"description": "Gender Field (optional, string)",
+											"type": "text"
+										},
+										{
+											"key": "birth",
+											"value": "1st of September 1979",
+											"description": "DOB Field (optional, string)",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{domain}}/users/:id",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "",
+											"description": "User ID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User By Id",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{domain}}/users/:id",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "",
+											"description": "User ID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find Authenticated User",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{domain}}/user/profile",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"user",
+										"profile"
+									]
+								},
+								"description": "Fetches the authenticated user and returns a User object."
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "Link",
+			"item": [
+				{
+					"name": "Create Link",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"http://nasa.gov\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/links",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"links"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Link",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"url\": \"http://nasa.gov\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/links",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"links"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.15.2"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.2.15"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "private, must-revalidate"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Apr 2019 20:39:23 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "30"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "28"
+								},
+								{
+									"key": "Warning",
+									"value": "199 Missing request header [ accept = application/json ] when calling a JSON API."
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"object\": \"Link\",\n        \"uid\": \"a15cc0c97b7a08f\",\n        \"url\": \"http://nasa.gov\",\n        \"link\": \"http://url-shortener.dev:8081/a15cc0c97b7a08f\"\n    },\n    \"meta\": {\n        \"include\": [],\n        \"custom\": []\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Find Link",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/links/:id",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"links",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Link ID"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Find Link",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{domain}}/links/:id",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"links",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Link ID"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.15.2"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.2.15"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "private, must-revalidate"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Apr 2019 20:46:34 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "30"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "29"
+								},
+								{
+									"key": "Warning",
+									"value": "199 Missing request header [ accept = application/json ] when calling a JSON API."
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"object\": \"Link\",\n        \"uid\": \"_15cbc8eb566dca\",\n        \"url\": \"http://google.com\",\n        \"link\": \"http://url-shortener.dev:8081/_15cbc8eb566dca\",\n        \"id\": 1\n    },\n    \"meta\": {\n        \"include\": [],\n        \"custom\": []\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Find Link By Uid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/links/findByUid/:uid",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"links",
+								"findByUid",
+								":uid"
+							],
+							"variable": [
+								{
+									"key": "uid",
+									"value": "",
+									"description": "Link ID"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Find Link By Uid",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{domain}}/links/findByUid/:uid",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"links",
+										"findByUid",
+										":uid"
+									],
+									"variable": [
+										{
+											"key": "uid",
+											"value": "",
+											"description": "Link ID"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.15.2"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.2.15"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "private, must-revalidate"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Apr 2019 20:55:20 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "30"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "29"
+								},
+								{
+									"key": "Warning",
+									"value": "199 Missing request header [ accept = application/json ] when calling a JSON API."
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"object\": \"Link\",\n        \"uid\": \"_15cbc8eb566dca\",\n        \"url\": \"http://google.com\",\n        \"link\": \"http://url-shortener.dev:8081/_15cbc8eb566dca\",\n        \"id\": 1\n    },\n    \"meta\": {\n        \"include\": [],\n        \"custom\": []\n    }\n}"
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "274aca67-7166-40b0-8b50-4af9297a24e4",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "184b5f2e-b3d8-41da-8b48-313db91097c4",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "247e09a5-61b5-4ca2-8472-bdba0541ff46",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "d1e55947-f929-482a-a2cb-a703398180c8",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
