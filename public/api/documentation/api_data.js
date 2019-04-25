@@ -1,0 +1,344 @@
+define({ "api": [
+  {
+    "group": "Links",
+    "name": "create",
+    "type": "post",
+    "url": "/v1/links",
+    "title": "Create Link",
+    "description": "<p>Create Link</p>",
+    "version": "1.0.0",
+    "permission": [
+      {
+        "name": "none"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "url",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "filename": "app/Containers/Link/UI/API/Routes/CreateLink.v1.public.php",
+    "groupTitle": "Links",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"data\":{\n      \"object\":\"Link\",\n      \"uid\": \"eqwja3vw94kzmxr0\",\n      \"url\": \"http://google.com\"\n   },\n   \"meta\":{\n      \"include\":[\n\n      ],\n      \"custom\":[\n\n      ]\n   }\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "group": "Links",
+    "name": "findById",
+    "type": "get",
+    "url": "/v1/links/:id",
+    "title": "Find Link By Id",
+    "description": "<p>Find a link by its id</p>",
+    "version": "1.0.0",
+    "permission": [
+      {
+        "name": "none"
+      }
+    ],
+    "filename": "app/Containers/Link/UI/API/Routes/FindById.v1.public.php",
+    "groupTitle": "Links",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"data\":{\n      \"object\":\"Link\",\n      \"uid\": \"eqwja3vw94kzmxr0\",\n      \"url\": \"http://google.com\"\n   },\n   \"meta\":{\n      \"include\":[\n\n      ],\n      \"custom\":[\n\n      ]\n   }\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "group": "Links",
+    "name": "findByUid",
+    "type": "get",
+    "url": "/v1/links/findByUid/:uid",
+    "title": "Find Link By Uid",
+    "description": "<p>Find a Link by its Uid</p>",
+    "version": "1.0.0",
+    "permission": [
+      {
+        "name": "none"
+      }
+    ],
+    "filename": "app/Containers/Link/UI/API/Routes/FindByUid.v1.public.php",
+    "groupTitle": "Links",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"data\":{\n      \"object\":\"Link\",\n      \"uid\": \"eqwja3vw94kzmxr0\",\n      \"url\": \"http://google.com\"\n   },\n   \"meta\":{\n      \"include\":[\n\n      ],\n      \"custom\":[\n\n      ]\n   }\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "group": "OAuth2",
+    "name": "ClientAdminWebAppLoginProxy",
+    "type": "post",
+    "url": "/v1/clients/web/admin/login",
+    "title": "Login (Password Grant with proxy)",
+    "description": "<p>Login Users using their email and password, without client_id and client_secret.</p>",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": "<p>user email</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>user password</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 315360000,\n  \"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbG...\",\n  \"refresh_token\": \"ZFDPA1S7H8Wydjkjl+xt+hPGWTagX...\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "app/Containers/Authentication/UI/API/Routes/ProxyLoginForAdminWebClient.v1.public.php",
+    "groupTitle": "OAuth2"
+  },
+  {
+    "group": "OAuth2",
+    "name": "ClientAdminWebAppRefreshProxy",
+    "type": "post",
+    "url": "/v1/clients/web/admin/refresh",
+    "title": "Refresh",
+    "description": "<p>If <code>refresh_token</code> is not provided the w'll try to get it from the http cookie.</p>",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "refresh_token",
+            "description": "<p>The refresh Token</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 315360000,\n  \"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbG...\",\n  \"refresh_token\": \"ZFDPA1S7H8Wydjkjl+xt+hPGWTagX...\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "app/Containers/Authentication/UI/API/Routes/ProxyRefreshForAdminWebClient.v1.public.php",
+    "groupTitle": "OAuth2"
+  },
+  {
+    "group": "OAuth2",
+    "name": "LoginCredentialsGrant",
+    "type": "post",
+    "url": "/v1/oauth/token",
+    "title": "Login (Client Credentials Grant)",
+    "description": "<p>Login Users using their username and passwords. (For Third-Party Clients). You must have client ID and secret first. You can generate them by creating new Client in our Web App.</p>",
+    "version": "1.0.0",
+    "permission": [
+      {
+        "name": "Authenticated User"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "client_id",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "client_secret",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "grant_type",
+            "description": "<p>must be <code>client_credentials</code></p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "scope",
+            "description": "<p>you can leave it empty</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 315360000,\n  \"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbG...\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "app/Containers/Authentication/UI/API/Routes/LoginUsingCredentialGrant.v1.public.php",
+    "groupTitle": "OAuth2"
+  },
+  {
+    "group": "OAuth2",
+    "name": "Logout",
+    "type": "DELETE",
+    "url": "/v1/logout",
+    "title": "",
+    "description": "<p>User Logout. (Revoking Access Token)</p>",
+    "version": "1.0.0",
+    "permission": [
+      {
+        "name": "Authenticated User"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 202 Accepted\n{\n  \"message\": \"Token revoked successfully.\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "app/Containers/Authentication/UI/API/Routes/Logout.v1.public.php",
+    "groupTitle": "OAuth2"
+  },
+  {
+    "group": "User",
+    "name": "forgotPassword",
+    "type": "POST",
+    "url": "/v1/password/forgot",
+    "title": "Forgot password",
+    "description": "<p>Forgot password endpoint.</p>",
+    "version": "1.0.0",
+    "permission": [
+      {
+        "name": "none"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "reseturl",
+            "description": "<p>the reset password url</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 202 OK\n{}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "app/Containers/User/UI/API/Routes/ForgotPassword.v1.public.php",
+    "groupTitle": "User"
+  },
+  {
+    "group": "User",
+    "name": "resetPassword",
+    "type": "GET/POST",
+    "url": "/v1/password/reset",
+    "title": "Reset Password",
+    "description": "<p>Resets a password for an user.</p>",
+    "version": "1.0.0",
+    "permission": [
+      {
+        "name": "none"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>from the forgot password email</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>the new password</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 204 OK\n{}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "app/Containers/User/UI/API/Routes/ResetPassword.v1.public.php",
+    "groupTitle": "User"
+  }
+] });
