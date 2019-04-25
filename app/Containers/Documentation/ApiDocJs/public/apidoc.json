@@ -1,0 +1,18 @@
+{
+  "name": "URL Shortener",
+  "description": "Public API Documentation",
+  "title": "Welcome",
+  "version": "1.0.0",
+  "url" : "http://api.url-shortener.dev",
+  "template": {
+  	"withCompare": true,
+  	"withGenerator": true
+  },
+  "header": {
+    "title": "API Overview",
+    "filename": "../public/api-rendered-markdowns/header.md"
+  },
+  "order": [
+
+  ]
+}
