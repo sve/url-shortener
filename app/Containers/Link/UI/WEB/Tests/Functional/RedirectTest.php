@@ -16,7 +16,7 @@ class RedirectTest extends ApiTestCase
     /**
      * @var string
      */
-    protected $endpoint = 'get@{uid}';
+    protected $endpoint = 'get@/{uid}';
 
     /**
      * @var array

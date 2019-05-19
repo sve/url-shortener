@@ -17,7 +17,7 @@ use App\Containers\Authorization\UI\API\Requests\SyncPermissionsOnRoleRequest;
 use App\Containers\Authorization\UI\API\Requests\SyncUserRolesRequest;
 use App\Containers\Authorization\UI\API\Transformers\PermissionTransformer;
 use App\Containers\Authorization\UI\API\Transformers\RoleTransformer;
-use App\Containers\User\UI\API\Transformers\LinkTransformer;
+use App\Containers\User\UI\API\Transformers\UserTransformer;
 use App\Ship\Parents\Controllers\ApiController;
 use App\Ship\Transporters\DataTransporter;
 
@@ -86,7 +86,7 @@ class Controller extends ApiController
     {
         $user = Apiato::call('Authorization@AssignUserToRoleAction', [new DataTransporter($request)]);
 
-        return $this->transform($user, LinkTransformer::class);
+        return $this->transform($user, UserTransformer::class);
     }
 
     /**
@@ -98,7 +98,7 @@ class Controller extends ApiController
     {
         $user = Apiato::call('Authorization@SyncUserRolesAction', [new DataTransporter($request)]);
 
-        return $this->transform($user, LinkTransformer::class);
+        return $this->transform($user, UserTransformer::class);
     }
 
     /**
@@ -122,7 +122,7 @@ class Controller extends ApiController
     {
         $user = Apiato::call('Authorization@RevokeUserFromRoleAction', [new DataTransporter($request)]);
 
-        return $this->transform($user, LinkTransformer::class);
+        return $this->transform($user, UserTransformer::class);
     }
 
     /**

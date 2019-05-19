@@ -4,7 +4,7 @@ namespace App\Containers\Authorization\UI\API\Tests\Functional;
 
 use App\Containers\Authorization\Models\Role;
 use App\Containers\Authorization\Tests\ApiTestCase;
-use App\Containers\User\Models\Link;
+use App\Containers\User\Models\User;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -32,7 +32,7 @@ class RevokeUserFromRoleTest extends ApiTestCase
     {
         $roleA = factory(Role::class)->create();
 
-        $randomUser = factory(Link::class)->create();
+        $randomUser = factory(User::class)->create();
         $randomUser->assignRole($roleA);
 
         $data = [
@@ -65,7 +65,7 @@ class RevokeUserFromRoleTest extends ApiTestCase
     {
         $roleA = factory(Role::class)->create();
 
-        $randomUser = factory(Link::class)->create();
+        $randomUser = factory(User::class)->create();
         $randomUser->assignRole($roleA);
 
         $data = [
@@ -100,7 +100,7 @@ class RevokeUserFromRoleTest extends ApiTestCase
         $roleA = factory(Role::class)->create();
         $roleB = factory(Role::class)->create();
 
-        $randomUser = factory(Link::class)->create();
+        $randomUser = factory(User::class)->create();
         $randomUser->assignRole($roleA);
         $randomUser->assignRole($roleB);
 

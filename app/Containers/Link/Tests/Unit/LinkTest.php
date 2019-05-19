@@ -61,10 +61,6 @@ class LinkTest extends TestCase
         $action = App::make(MakeLinkModelAndEnqueue::class);
         $action->run($transporter);
 
-        Queue::assertPushed(
-            SaveLink::class, function ($job) use ($transporter) {
-                return $job->link->url === $transporter->url;
-            }
-        );
+        Queue::assertPushed(SaveLink::class);
     }
 }

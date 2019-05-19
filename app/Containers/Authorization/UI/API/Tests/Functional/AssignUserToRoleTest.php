@@ -4,7 +4,7 @@ namespace App\Containers\Authorization\UI\API\Tests\Functional;
 
 use App\Containers\Authorization\Models\Role;
 use App\Containers\Authorization\Tests\ApiTestCase;
-use App\Containers\User\Models\Link;
+use App\Containers\User\Models\User;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -30,7 +30,7 @@ class AssignUserToRoleTest extends ApiTestCase
      */
     public function testAssignUserToRole_()
     {
-        $randomUser = factory(Link::class)->create();
+        $randomUser = factory(User::class)->create();
 
         $role = factory(Role::class)->create();
 
@@ -57,7 +57,7 @@ class AssignUserToRoleTest extends ApiTestCase
      */
     public function testAssignUserToRoleWithRealId_()
     {
-        $randomUser = factory(Link::class)->create();
+        $randomUser = factory(User::class)->create();
 
         $role = factory(Role::class)->create();
 
@@ -89,7 +89,7 @@ class AssignUserToRoleTest extends ApiTestCase
      */
     public function testAssignUserToManyRoles_()
     {
-        $randomUser = factory(Link::class)->create();
+        $randomUser = factory(User::class)->create();
 
         $role1 = factory(Role::class)->create();
         $role2 = factory(Role::class)->create();

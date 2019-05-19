@@ -1,0 +1,103 @@
+image:
+  name: docker/compose:1.24.0
+  entrypoint: ["/bin/sh", "-c"]
+
+before_script:
+  - ln -nfs .env.example .env
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+
+services:
+  - docker:dind
+  - mysql:${MYSQL_VERSION}
+  - redis:${REDIS_VERSION}
+
+variables:
+  MYSQL_USER: ${DB_USERNAME}
+  MYSQL_PASSWORD: ${DB_PASSWORD}
+  MYSQL_DATABASE: ${DB_DATABASE}
+  DOCKER_DRIVER: overlay2
+  LATEST_TAG: $CI_REGISTRY_IMAGE:latest
+  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+  DOCKER_HOST: tcp://docker:2375
+
+stages:
+  - build
+  - push
+  - deploy
+  - clean
+
+cache:
+  key: "$CI_COMMIT_REF_NAME"
+  paths:
+    - cache
+
+build:frontend:
+  stage: build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-frontend
+    paths:
+      - vendor/
+  script:
+    - docker-compose pull || true
+    - docker-compose up -d --no-recreate
+    - docker-compose build frontend
+    - docker commit $(docker-compose ps -q frontend) ${CI_REGISTRY_IMAGE}/frontend:${CI_COMMIT_REF_NAME}
+    - docker push ${CI_REGISTRY_IMAGE}/frontend:${CI_COMMIT_REF_NAME}
+  artifacts:
+    expire_in: 1 month
+    paths:
+      - node_modules/
+      - public/css/
+      - public/js/
+
+build:backend:
+  stage: build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-composer
+    paths:
+      - vendor/
+  script:
+    - docker-compose pull || true
+    - docker-compose up -d --no-recreate
+    - docker-compose exec -T php composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+    - docker-compose exec -T php php artisan key:generate
+    - docker-compose exec -T php ./vendor/bin/phpunit
+    - docker commit $(docker-compose ps -q php) ${CI_REGISTRY_IMAGE}/php:${CI_COMMIT_REF_NAME}
+    - docker push ${CI_REGISTRY_IMAGE}/php:${CI_COMMIT_REF_NAME}
+    - docker commit $(docker-compose ps -q nginx) ${CI_REGISTRY_IMAGE}/nginx:${CI_COMMIT_REF_NAME}
+    - docker push ${CI_REGISTRY_IMAGE}/nginx:${CI_COMMIT_REF_NAME}
+  artifacts:
+    expire_in: 1 month
+    paths:
+      - vendor/
+      - .env
+
+php:
+  stage: deploy
+  script:
+    - docker pull ${CI_REGISTRY_IMAGE}/php:${CI_COMMIT_REF_NAME}
+    - docker tag ${CI_REGISTRY_IMAGE}/php:${CI_COMMIT_REF_NAME} ${CI_REGISTRY_IMAGE}/php
+    - docker push ${CI_REGISTRY_IMAGE}/php
+  only:
+    - master
+  when: manual
+
+nginx:
+  stage: deploy
+  script:
+    - docker pull ${CI_REGISTRY_IMAGE}/nginx:${CI_COMMIT_REF_NAME}
+    - docker tag ${CI_REGISTRY_IMAGE}/nginx:${CI_COMMIT_REF_NAME} ${CI_REGISTRY_IMAGE}/nginx
+    - docker push ${CI_REGISTRY_IMAGE}/nginx
+  only:
+    - master
+  when: manual
+
+frontend:
+  stage: deploy
+  script:
+    - docker pull ${CI_REGISTRY_IMAGE}/frontend:${CI_COMMIT_REF_NAME}
+    - docker tag ${CI_REGISTRY_IMAGE}/frontend:${CI_COMMIT_REF_NAME} ${CI_REGISTRY_IMAGE}/frontend
+    - docker push ${CI_REGISTRY_IMAGE}/frontend
+  only:
+    - master
+  when: manual

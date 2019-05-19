@@ -4,7 +4,7 @@ namespace App\Containers\Authentication\Tasks;
 
 use App\Containers\Authentication\Exceptions\LoginFailedException;
 use App\Containers\Authentication\Exceptions\UserNotConfirmedException;
-use App\Containers\User\Models\Link;
+use App\Containers\User\Models\User;
 use App\Ship\Parents\Tasks\Task;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -45,7 +45,7 @@ class CheckIfUserIsConfirmedTask extends Task
         }
     }
 
-    public function setUser(Link $user)
+    public function setUser(User $user)
     {
         $this->user = $user;
     }

@@ -47,9 +47,9 @@ class LinkTransformer extends Transformer
             $response['updated_at'] = $link->created_at->format(\DateTime::ATOM);
         }
 
-        if ($link->id) {
+        //if ($link->id) {
             $response['id'] = $link->id;
-        }
+        //}
 
         return $response;
     }

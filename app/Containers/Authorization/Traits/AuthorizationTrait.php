@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 trait AuthorizationTrait
 {
     /**
-     * @return \App\Containers\User\Models\Link|null
+     * @return \App\Containers\User\Models\User|null
      */
     public function getUser()
     {

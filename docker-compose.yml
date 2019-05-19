@@ -1,8 +1,19 @@
-version: '3'
+version: '3.7'
 
 services:
-  workspace:
-    build: docker/workspace
+  php:
+    image: ${DOCKER_REGISTRY}/php
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      target: local
+      args:
+        - PHP_IMAGE=${DOCKER_SERVICE_PHP_IMAGE}
+        - COMPOSER_GLOBAL_PACKAGES=${DOCKER_SERVICE_PHP_COMPOSER_GLOBAL_PACKAGES}
+      cache_from:
+        - ${DOCKER_REGISTRY}/php
+    ports:
+      - "${DOCKER_SERVICE_PHP_XDEBUG_EXPOSED_PORT}:9000"
     depends_on:
       - mysql
       - redis
@@ -10,39 +21,51 @@ services:
       - ./:/application
 
   mysql:
-    image: mysql:5.7
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    image: ${DOCKER_SERVICE_MYSQL_IMAGE}
     ports:
-      - "3306:3306"
+      - "${DOCKER_SERVICE_MYSQL_EXPOSED_PORT}:3306"
     volumes:
       - ./docker/mysql/init:/docker-entrypoint-initdb.d
     environment:
-      - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_USER=foo
-      - MYSQL_PASSWORD=bar
-      - MYSQL_DATABASE=shortener
-  
+      - MYSQL_ROOT_PASSWORD=${DOCKER_SERVICE_MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+
   nginx:
-    image: nginx
+    image: ${DOCKER_REGISTRY}/nginx
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+      target: nginx
+      args:
+        - NGINX_IMAGE=${DOCKER_SERVICE_NGINX_IMAGE}
+      cache_from:
+        - ${DOCKER_REGISTRY}/nginx
     ports:
-      - "8081:8000"
+      - "${DOCKER_SERVICE_NGINX_EXPOSED_PORT}:80"
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./docker/nginx/server.conf:/etc/nginx/conf.d/default.conf
-      - ./:/application
     depends_on:
-      - workspace
-
-  worker:
-    build: docker/workspace
-    command: php artisan queue:work redis
-    depends_on:
-      - mysql
-      - redis
-    volumes:
-      - ./:/application
+      - php
 
   redis:
-    image: redis
+    image: ${DOCKER_SERVICE_REDIS_IMAGE}
     ports:
-      - "6379:6379"
+      - "${DOCKER_SERVICE_REDIS_EXPOSED_PORT}:6379"
+
+  frontend:
+    image: ${DOCKER_REGISTRY}/frontend
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+      target: frontend
+      args:
+        - NODE_IMAGE=${DOCKRT_SERVICE_NODE_IMAGE}
+      cache_from:
+        - ${DOCKER_REGISTRY}/frontend
+    entrypoint:
+      - /usr/local/bin/npm
+      - run
+      - production

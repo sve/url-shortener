@@ -2,7 +2,7 @@
 
 namespace App\Containers\Authorization\Tasks;
 
-use App\Containers\User\Models\Link;
+use App\Containers\User\Models\User;
 use App\Ship\Parents\Tasks\Task;
 use Illuminate\Contracts\Auth\Authenticatable;
 
@@ -15,12 +15,12 @@ class AssignUserToRoleTask extends Task
 {
 
     /**
-     * @param \App\Containers\User\Models\Link $user
+     * @param \App\Containers\User\Models\User $user
      * @param array                            $roles
      *
      * @return \Illuminate\Contracts\Auth\Authenticatable
      */
-    public function run(Link $user, array $roles) : Authenticatable
+    public function run(User $user, array $roles) : Authenticatable
     {
         return $user->assignRole($roles);
     }

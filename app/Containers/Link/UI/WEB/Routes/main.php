@@ -11,5 +11,4 @@ $router->get('/', [
 $router->any('/{uid}', [
     'as' => 'redirect',
     'uses' => 'Controller@redirect',
-    'domain' => env('APP_URL'),
 ]);

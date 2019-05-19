@@ -4,7 +4,7 @@ namespace App\Containers\Authorization\UI\API\Tests\Functional;
 
 use App\Containers\Authorization\Models\Role;
 use App\Containers\Authorization\Tests\ApiTestCase;
-use App\Containers\User\Models\Link;
+use App\Containers\User\Models\User;
 
 /**
  * Class SyncUserRolesTest.
@@ -32,7 +32,7 @@ class SyncUserRolesTest extends ApiTestCase
         $role1 = factory(Role::class)->create(['display_name' => '111']);
         $role2 = factory(Role::class)->create(['display_name' => '222']);
 
-        $randomUser = factory(Link::class)->create();
+        $randomUser = factory(User::class)->create();
         $randomUser->assignRole($role1);
 
 

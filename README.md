@@ -8,7 +8,7 @@ docker-compose up -d
 
 Enter the workspace container:
 ```
-docker-compose exec workspace zsh
+docker-compose exec php zsh
 ```
 
 Create your local ```.env``` config:  
@@ -52,7 +52,7 @@ Usage
 Tests
 -----
 
-Run ```./vendor/bin/phpunit``` inside ```workspace``` container
+Run ```./vendor/bin/phpunit``` inside ```php``` container
 
 Documentation
 -------------
